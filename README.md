@@ -1,8 +1,3 @@
-# 🚀 SILA-MD WHATSAPP BOT
-
-![SILA-MD Logo](https://files.catbox.moe/36vahk.png)
-
-> Advanced WhatsApp Bot powered by SILA TECH
 
 ## 📦 DEPLOYMENT
 
