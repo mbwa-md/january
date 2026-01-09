@@ -13,158 +13,168 @@ const {
     jidNormalizedUser
 } = require("@whiskeysockets/baileys");
 const { upload } = require('./mega');
+
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
+
 router.get('/', async (req, res) => {
     const id = makeid();
- //   let num = req.query.number;
-    async function MALVIN_XD_PAIR_CODE() {
-        const {
-            state,
-            saveCreds
-        } = await useMultiFileAuthState('./temp/' + id);
+    const startTime = Date.now();
+    
+    async function SILA_MD_PAIR_CODE() {
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+        
         try {
-var items = ["Safari"];
-function selectRandomItem(array) {
-  var randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-var randomItem = selectRandomItem(items);
+            var items = ["Safari", "Chrome", "Firefox"];
+            function selectRandomItem(array) {
+                var randomIndex = Math.floor(Math.random() * array.length);
+                return array[randomIndex];
+            }
+            var randomItem = selectRandomItem(items);
             
             let sock = makeWASocket({
-                	
-				auth: state,
-				printQRInTerminal: false,
-				logger: pino({
-					level: "silent"
-				}),
-				browser: Browsers.macOS("Desktop"),
-			});
+                auth: state,
+                printQRInTerminal: false,
+                logger: pino({ level: "silent" }),
+                browser: Browsers.macOS(randomItem),
+            });
             
             sock.ev.on('creds.update', saveCreds);
+            
             sock.ev.on("connection.update", async (s) => {
-                const {
-                    connection,
-                    lastDisconnect,
-                    qr
-                } = s;
-              if (qr) await res.end(await QRCode.toBuffer(qr));
+                const { connection, lastDisconnect, qr } = s;
+                const latency = Date.now() - startTime;
+                const performanceLevel = latency < 200 ? "🟢 Excellent" : latency < 500 ? "🟡 Good" : "🔴 Slow";
+                
+                if (qr) await res.end(await QRCode.toBuffer(qr));
+                
                 if (connection == "open") {
-                    await delay(5000);
+                    await delay(3000);
                     let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                     let rf = __dirname + `/temp/${id}/creds.json`;
-                    function generateRandomText() {
-                        const prefix = "3EB";
+                    
+                    function generateSILA_ID() {
+                        const prefix = "SILA";
                         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let randomText = prefix;
+                        let silaID = prefix;
                         for (let i = prefix.length; i < 22; i++) {
                             const randomIndex = Math.floor(Math.random() * characters.length);
-                            randomText += characters.charAt(randomIndex);
+                            silaID += characters.charAt(randomIndex);
                         }
-                        return randomText;
+                        return silaID;
                     }
-                    const randomText = generateRandomText();
+                    
+                    const silaID = generateSILA_ID();
+                    
                     try {
-                        const { upload } = require('./mega');
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let md = "sila~" + string_session;
-                        let code = await sock.sendMessage(sock.user.id, { text: md });
-                        let desc = `*Hey there, MALVIN-XD User!* 👋🏻
+                        let session_code = "sila~" + string_session;
+                        
+                        let code = await sock.sendMessage(sock.user.id, { text: session_code });
+                        
+                        let desc = `🚀 *SILA-MD SESSION* ✅
+═══════════════════════
 
-Thanks for using *Suho-XD* — your session has been successfully created!
+╔► 🔐 *Session ID:* Sent above
+╠► ⚠️  *Warning:* Do not share this code!
 
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp Channel:  
-https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/NaCkS-ai/Sung-Suho-MD
-
-——————
-
-> *© Powered by dev sung*
-Stay cool and hack smart. ✌🏻`;
+> © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
+                        
                         await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "suho-xᴅ 𝕮𝖔𝖓𝖓𝖊𝖈𝖙𝖊𝖉",
-thumbnailUrl: "https://files.catbox.moe/bqs70b.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A",
-mediaType: 1,
-renderLargerThumbnail: true
-}  
-}
-},
-{quoted:code })
+                            text: desc,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: 'SILA MD',
+                                    body: 'WhatsApp Bot',
+                                    thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
+                                    thumbnailWidth: 64,
+                                    thumbnailHeight: 64,
+                                    sourceUrl: 'https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02',
+                                    mediaUrl: 'https://files.catbox.moe/36vahk.png',
+                                    showAdAttribution: true,
+                                    renderLargerThumbnail: false,
+                                    previewType: 'PHOTO',
+                                    mediaType: 1
+                                },
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363402325089913@newsletter',
+                                    newsletterName: 'SILA TECH',
+                                    serverMessageId: Math.floor(Math.random() * 1000000)
+                                },
+                                isForwarded: true,
+                                forwardingScore: 999
+                            }
+                        }, { quoted: code });
+                        
                     } catch (e) {
-                            let ddd = sock.sendMessage(sock.user.id, { text: e });
-                            let desc = `*Hey there, MALVIN-XD User!* 👋🏻
+                        let ddd = await sock.sendMessage(sock.user.id, { text: e.toString() });
+                        
+                        let desc = `🚀 *SILA-MD SESSION* ⚠️
+═══════════════════════
 
-Thanks for using *Suho-XD* — your session has been successfully created!
+╔► 🔐 *Session ID:* Sent above
+╠► ❌ *Error:* Session created with minor issues
 
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp Channel:  
-https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/NaCkS-ai/Sung-Suho-MD
-
-> *© Powered by Malvin King*
-Stay cool and hack smart. ✌🏻*`;
-                            await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "ᴍᴀʟᴠɪɴ-xᴅ 𝕮𝖔𝖓𝖓𝖊𝖈𝖙𝖊𝖉 ✅  ",
-thumbnailUrl: "https://files.catbox.moe/bqs70b.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A",
-mediaType: 2,
-renderLargerThumbnail: true,
-showAdAttribution: true
-}  
-}
-},
-{quoted:ddd })
+> © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
+                        
+                        await sock.sendMessage(sock.user.id, {
+                            text: desc,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: 'SILA MD',
+                                    body: 'WhatsApp Bot ',
+                                    thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
+                                    thumbnailWidth: 64,
+                                    thumbnailHeight: 64,
+                                    sourceUrl: 'https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02',
+                                    mediaUrl: 'https://files.catbox.moe/36vahk.png',
+                                    showAdAttribution: true,
+                                    renderLargerThumbnail: false,
+                                    previewType: 'PHOTO',
+                                    mediaType: 1
+                                },
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363402325089913@newsletter',
+                                    newsletterName: 'SILA TECH',
+                                    serverMessageId: Math.floor(Math.random() * 1000000)
+                                },
+                                isForwarded: true,
+                                forwardingScore: 999
+                            }
+                        }, { quoted: ddd });
                     }
+                    
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
-                    console.log(`👤 ${sock.user.id} 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 ✅ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...`);
+                    console.log(`👤 ${sock.user.id} 🔥 SILA-MD Session Connected ✅`);
                     await delay(10);
                     process.exit();
+                    
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10);
-                    MALVIN_XD_PAIR_CODE();
+                    SILA_MD_PAIR_CODE();
                 }
             });
+            
         } catch (err) {
-            console.log("service restated");
+            console.log("⚠️ Connection failed — Restarting service...");
             await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.send({ code: "❗ Service Unavailable" });
+                await res.send({ code: "❗ SILA-MD Service Unavailable" });
             }
         }
     }
-    await MALVIN_XD_PAIR_CODE();
+    
+    await SILA_MD_PAIR_CODE();
 });
+
 setInterval(() => {
-    console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
+    console.log("🔄 SILA-MD Restarting process...");
     process.exit();
-}, 180000); //30min
+}, 1800000); // 30 minutes
+
 module.exports = router;
