@@ -1,239 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SILA MD - Pro WhatsApp Bot</title>
-    <link rel="shortcut icon" href="https://files.catbox.moe/36vahk.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>POPKID-XTR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --accent: #00f7ff;
+      --accent2: #ff00e6;
+      --bg-dark: rgba(8, 8, 14, 0.75);
+      --glass-border: rgba(0, 247, 255, 0.35);
+      --text-light: #fdfdfd;
+    }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(-45deg, #000000, #0a0a2a, #1a001a, #000033);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    body {
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #00111a, #000 90%);
+      color: var(--text-light);
+      overflow: hidden;
+      perspective: 1000px;
+    }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: rgba(20, 20, 40, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            box-shadow: 0 0 40px rgba(0, 150, 255, 0.5);
-            margin: 20px;
-        }
+    /* Background Canvases */
+    #particles-canvas,
+    #matrixCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+    }
+    #particles-canvas { z-index: 0; }
+    #matrixCanvas { z-index: 1; mix-blend-mode: screen; }
 
-        .logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #00ffff;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
-            margin-bottom: 20px;
-        }
+    /* Neon Container */
+    .container {
+      position: relative;
+      z-index: 5;
+      max-width: 450px;
+      margin: 5% auto;
+      padding: 35px 30px;
+      border-radius: 22px;
+      background: var(--bg-dark);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(14px) saturate(160%);
+      box-shadow: 0 0 25px rgba(0, 247, 255, 0.35), 0 0 40px rgba(255, 0, 200, 0.25);
+      text-align: center;
+      animation: fadeIn 1.5s ease, floatCard 6s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: gradientText 3s linear infinite;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      50% { transform: translateY(-12px) rotateX(3deg) rotateY(-3deg); }
+    }
 
-        @keyframes gradientText {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
+    /* Logo */
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: url('https://i.ibb.co/6cBHT8tC/popkid.jpg') center/cover no-repeat;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 25px var(--accent), 0 0 50px var(--accent2);
+      animation: floatLogo 4s ease-in-out infinite, spinGlow 8s linear infinite;
+    }
 
-        .subtitle {
-            color: #ccccff;
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes spinGlow {
+      from { filter: hue-rotate(0deg); }
+      to { filter: hue-rotate(360deg); }
+    }
 
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 30px 0;
-        }
+    /* Title */
+    .title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 28px;
+      background: linear-gradient(90deg, #fff, var(--accent), var(--accent2));
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 6s linear infinite;
+      text-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
+    }
 
-        .nav-button {
-            padding: 18px 30px;
-            background: linear-gradient(90deg, #000033, #330033);
-            color: white;
-            text-decoration: none;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-        }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
 
-        .nav-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
-            background: linear-gradient(90deg, #001166, #660066);
-        }
+    /* Buttons */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
 
-        .nav-button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      color: var(--text-light);
+      border: 1px solid var(--glass-border);
+      background: rgba(0, 247, 255, 0.08);
+      backdrop-filter: blur(8px);
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .nav-button:hover:before {
-            left: 100%;
-        }
+    .button i { color: var(--accent); font-size: 17px; }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
+    .button::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 200%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(0,247,255,0.25), transparent);
+      transition: 0.6s;
+    }
 
-        .info-card {
-            background: rgba(30, 30, 60, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 5px solid #00ffff;
-        }
+    .button:hover::before { left: 100%; }
+    .button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 247, 255, 0.7), 0 0 40px rgba(255, 0, 200, 0.4);
+      border-color: var(--accent);
+    }
 
-        .info-card h3 {
-            color: #ff00ff;
-            margin-bottom: 10px;
-        }
-
-        .info-card p {
-            color: #ccccff;
-            line-height: 1.6;
-        }
-
-        .tech-badge {
-            display: inline-block;
-            background: linear-gradient(90deg, #000033, #330033);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            color: #00ffff;
-            margin: 10px 5px;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-        }
-
-        footer {
-            margin-top: 40px;
-            padding: 20px;
-            color: #8888cc;
-            font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 800px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            h1 {
-                font-size: 36px;
-            }
-            
-            .nav-button {
-                padding: 15px 20px;
-                font-size: 16px;
-            }
-        }
-    </style>
+    /* Footer */
+    .footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 1px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://files.catbox.moe/36vahk.png" alt="SILA MD Logo" class="logo">
-        
-        <h1>SILA MD BOT</h1>
-        <div class="subtitle">PRO EDITION 2026 | POWERED BY SILA TECH</div>
-        
-        <div class="button-group">
-            <a href="/qr" class="nav-button">
-                <span>📷</span> SCAN QR CODE
-            </a>
-            
-            <a href="/pair" class="nav-button">
-                <span>🔗</span> GET PAIRING CODE
-            </a>
-            
-            <a href="https://github.com/Sila-Md/SILA-M.D" class="nav-button" target="_blank">
-                <span>⎘</span> FORK REPOSITORY
-            </a>
-            
-            <a href="https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02" class="nav-button" target="_blank">
-                <span>📢</span> WHATSAPP CHANNEL
-            </a>
-            
-            <a href="https://chat.whatsapp.com/IdGNaKt80DEBqirc2ek4ks" class="nav-button" target="_blank">
-                <span>👥</span> USER BOT GROUP
-            </a>
-            
-            <span class="tech-badge">SILA TECH</span>
-            <span class="tech-badge">WHATSAPP BOT</span>
-            <div style="margin: 30px 0;">
-            
-        </div>
-    </div>
-    
-    <footer>
-        SILA TECH © 2026 
-    </footer>
+  <canvas id="particles-canvas"></canvas>
+  <canvas id="matrixCanvas"></canvas>
 
-    <script>
-        // Background music
-        const bgMusic = new Audio('https://files.catbox.moe/iwpfp2.mp3');
-        bgMusic.loop = true;
-        bgMusic.volume = 0.2;
-        
-        // Start music on user interaction
-        document.addEventListener('click', function() {
-            bgMusic.play().catch(e => console.log("Music:", e));
-        }, { once: true });
-    </script>
+  <div class="container">
+    <div class="logo"></div>
+    <h1 class="title">SILA TECH </h1>
+    <div class="button-container">
+      <a href="/qr" class="button" target="_blank"><i class="fas fa-qrcode"></i> QR CODE</a>
+      <a href="/pair" class="button" target="_blank"><i class="fas fa-link"></i> PAIRING CODE</a>
+      <a href="https://github.com/kenyanpopkid/POPKID-XTR/fork" class="button" target="_blank"><i class="fas fa-code-branch"></i> FORK BOT</a>
+      <a href="https://github.com/kenyanpopkid" class="button" target="_blank"><i class="fas fa-user-plus"></i> FOLLOW DEV</a>
+      <a href="https://whatsapp.com/channel/0029VbB6d0KKAwEdvcgqrH26" class="button" target="_blank"><i class="fab fa-whatsapp"></i> WHATSAPP</a>
+      <a href="https://github.com/kenyanpopkid/POPKID-XTR" class="button" target="_blank"><i class="fas fa-bug"></i> REPORT ERROR</a>
+    </div>
+    <div class="footer">
+      POOKID-XTR &copy; <span id="currentYear"></span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    // ✅ Keep your particle + matrix script unchanged here
+  </script>
 </body>
 </html>
