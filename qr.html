@@ -3,551 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SILA-MD QR SCANNER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet">
+    <title>SILA MD - QR Code</title>
+    <link rel="shortcut icon" href="https://files.catbox.moe/36vahk.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             min-height: 100vh;
+            background: linear-gradient(-45deg, #000000, #001122, #110011, #000033);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
             display: flex;
             justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Tech Grid Background */
-        .tech-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px) 0 0 / 60px 60px,
-                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px) 0 0 / 60px 60px;
-            z-index: -2;
-        }
-
-        /* Scan Lines Animation */
-        .scan-lines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
-            animation: scan 2s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        /* Main Container */
-        .scanner-container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             padding: 20px;
         }
 
-        /* Tech Card */
-        .tech-card {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(15, 15, 35, 0.9);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 30px;
-            width: 100%;
+            padding: 40px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 50px rgba(0, 150, 255, 0.6);
             text-align: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 
-                0 0 40px rgba(59, 130, 246, 0.2),
-                inset 0 0 80px rgba(59, 130, 246, 0.05);
-            position: relative;
-            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
         }
 
-        .tech-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(59, 130, 246, 0.1) 50%,
-                transparent 70%
-            );
-            animation: shine 3s infinite linear;
+        .header {
+            margin-bottom: 30px;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        h1 {
+            color: #00ffff;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
         }
 
-        /* Header */
-        .scanner-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .scanner-logo {
-            width: 60px;
-            height: 60px;
-            filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
-        }
-
-        .header-text h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .subtitle {
+            color: #ccccff;
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .header-text p {
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        /* QR Container */
-        .qr-container {
-            position: relative;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(30, 41, 59, 0.7);
+        .qr-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
             border-radius: 15px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 2px dashed rgba(0, 255, 255, 0.4);
+            margin: 30px 0;
+            position: relative;
         }
 
         #qr-image {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
+            width: 300px;
+            height: 300px;
+            border: 3px solid #00ffff;
             border-radius: 10px;
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+            background: white;
+            padding: 10px;
         }
 
-        /* QR Overlay Animation */
-        .qr-overlay {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            border: 2px solid #3b82f6;
-            border-radius: 10px;
-            animation: pulseBorder 2s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes pulseBorder {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Instructions */
-        .instructions {
-            margin: 25px 0;
-            padding: 20px;
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 15px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .instructions h3 {
-            color: #60a5fa;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .steps {
-            text-align: left;
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .steps li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .steps li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: #3b82f6;
-            font-weight: bold;
-        }
-
-        /* Timer */
         .timer-container {
-            margin: 20px 0;
+            margin: 25px 0;
+        }
+
+        progress {
+            width: 100%;
+            height: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            overflow: hidden;
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: rgba(20, 20, 40, 0.8);
+            border-radius: 15px;
+        }
+
+        progress::-webkit-progress-value {
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            border-radius: 15px;
         }
 
         .timer-text {
-            color: #94a3b8;
-            font-size: 0.9rem;
+            color: #00ffff;
+            font-size: 16px;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        .instructions {
+            background: rgba(30, 30, 60, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: left;
+            border-left: 5px solid #ff00ff;
+        }
+
+        .instructions h3 {
+            color: #ff00ff;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            color: #ccccff;
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .instructions li {
             margin-bottom: 10px;
         }
 
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 5px;
-        }
-
-        #progressBar {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-            border: none;
-            transition: width 1s linear;
-        }
-
-        .time-left {
-            color: #60a5fa;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
+        .button-group {
             display: flex;
             gap: 15px;
-            margin-top: 25px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 14px 20px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 0.95rem;
+            margin-top: 30px;
+            flex-wrap: wrap;
         }
 
-        .reload-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        .action-button {
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #000033, #330033);
             color: white;
-        }
-
-        .reload-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        .back-btn {
-            background: rgba(30, 41, 59, 0.8);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .back-btn:hover {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
-        }
-
-        /* Status Messages */
-        #statusMessage {
-            margin-top: 15px;
-            min-height: 24px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .status-success {
-            color: #10b981;
-        }
-
-        .status-warning {
-            color: #f59e0b;
-        }
-
-        .status-error {
-            color: #ef4444;
-        }
-
-        /* Footer */
-        .scanner-footer {
-            margin-top: 25px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.85rem;
-        }
-
-        .tech-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .tech-link {
-            color: #93c5fd;
             text-decoration: none;
-            font-size: 0.8rem;
-            padding: 5px 12px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
+            border-radius: 12px;
+            font-weight: 700;
             transition: all 0.3s ease;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            min-width: 180px;
+            text-align: center;
         }
 
-        .tech-link:hover {
-            background: rgba(59, 130, 246, 0.1);
-            border-color: #3b82f6;
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+            background: linear-gradient(90deg, #001166, #660066);
+        }
+
+        .back-button {
+            background: linear-gradient(90deg, #333333, #555555);
+        }
+
+        .reload-button {
+            background: linear-gradient(90deg, #006600, #009900);
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #8888cc;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            #qr-image {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .action-button {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Tech Grid Background -->
-    <div class="tech-grid"></div>
-    
-    <!-- Scan Lines -->
-    <div class="scan-lines" id="scanLines"></div>
-
-    <!-- Main Scanner Container -->
-    <div class="scanner-container">
-        <div class="tech-card">
-            <!-- Header -->
-            <div class="scanner-header">
-                <img src="https://files.catbox.moe/36vahk.png" alt="SILA TECH" class="scanner-logo">
-                <div class="header-text">
-                    <h1>SILA-MD QR SCANNER</h1>
-                    <p>Secure WhatsApp Connection</p>
-                </div>
-            </div>
-
-            <!-- QR Code Container -->
-            <div class="qr-container">
-                <img id="qr-image" src="/qr" alt="QR CODE">
-                <div class="qr-overlay"></div>
-            </div>
-
-            
-            <!-- Timer -->
-            <div class="timer-container">
-                <div class="timer-text">QR Code expires in:</div>
-                <div class="progress-container">
-                    <progress value="0" max="60" id="progressBar"></progress>
-                </div>
-                <div class="time-left" id="timeLeft">60 seconds</div>
-            </div>
-
-            <!-- Status Message -->
-            <div id="statusMessage" class="status-warning">⏳ Waiting for scan...</div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-                <button class="action-btn reload-btn" onclick="reloadQR()">
-                    🔄 New QR Code
-                </button>
-                <button class="action-btn back-btn" onclick="goToDashboard()">
-                    ← Back to Menu
-                </button>
-            </div>
-
-            <!-- Footer -->
-            <div class="scanner-footer">
-                <div class="tech-links">
-                    <a href="https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02" class="tech-link" target="_blank">Channel</a>
-                    <a href="https://chat.whatsapp.com/IdGNaKt80DEBqirc2ek4ks" class="tech-link" target="_blank">Group</a>
-                    <a href="https://github.com/Sila-Md/SILA-M.D" class="tech-link" target="_blank">GitHub</a>
-                </div>
-                <p style="margin-top: 15px;">⚡ Powered by <strong style="color: #60a5fa;">SILA TECH</strong> • © 2026</p>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>SILA MD QR CODE</h1>
+            <div class="subtitle">Scan to Connect Your WhatsApp</div>
+            <div class="subtitle">Powered by SILA TECH | 2026 </div>
         </div>
+        
+        <div class="qr-box">
+            <img id="qr-image" src="/server" alt="SILA MD QR Code">
+        </div>
+        
+        <div class="timer-container">
+            <progress value="0" max="30" id="progressBar"></progress>
+            <div class="timer-text" id="timerText">Time remaining: 30 seconds</div>
+        </div>
+        
+        
+        <div class="button-group">
+            <a href="/main" class="action-button back-button">← Back to Main</a>
+            <a href="javascript:location.reload()" class="action-button reload-button">🔄 Reload QR</a>
+            <a href="/pair" class="action-button">🔗 Get Pair Code</a>
+        </div>
+        
+        <footer>
+            SILA TECH © 2026 | QR will auto-refresh every 30 seconds
+        </footer>
     </div>
 
     <script>
-        // Create scan lines
-        const scanLines = document.getElementById('scanLines');
-        for (let i = 0; i < 3; i++) {
-            const line = document.createElement('div');
-            line.className = 'scan-line';
-            line.style.animationDelay = `${i * 0.7}s`;
-            scanLines.appendChild(line);
-        }
-
-        // QR Timer
-        let timeleft = 60;
-        let timerInterval;
-        const progressBar = document.getElementById('progressBar');
-        const timeLeftDisplay = document.getElementById('timeLeft');
-        const statusMessage = document.getElementById('statusMessage');
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timeleft = 60;
-            progressBar.value = 0;
-            updateTimerDisplay();
-            
-            timerInterval = setInterval(function () {
-                if (timeleft <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('progressBar').style.background = '#ef4444';
-                    timeLeftDisplay.textContent = 'Expired!';
-                    statusMessage.innerHTML = '<span class="status-error">❌ QR Code expired! Generate new one</span>';
-                    return;
-                }
-                
-                timeleft -= 1;
-                progressBar.value = 60 - timeleft;
-                updateTimerDisplay();
-                
-                // Update status based on time left
-                if (timeleft === 15) {
-                    statusMessage.innerHTML = '<span class="status-warning">⏳ QR will expire soon...</span>';
-                } else if (timeleft === 5) {
-                    statusMessage.innerHTML = '<span class="status-error">⚠️ QR expiring in 5 seconds!</span>';
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            timeLeftDisplay.textContent = `${timeleft} seconds`;
-            
-            // Update progress bar color based on time
-            if (timeleft > 15) {
-                progressBar.style.background = 'linear-gradient(90deg, #3b82f6, #60a5fa)';
-            } else if (timeleft > 5) {
-                progressBar.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+        var timeleft = 30;
+        var downloadTimer = setInterval(function() {
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+                document.getElementById("progressBar").style.display = "none";
+                document.getElementById("timerText").innerHTML = "QR Expired! Click Reload";
+                document.getElementById("timerText").style.color = "#ff4444";
             } else {
-                progressBar.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+                document.getElementById("progressBar").value = 30 - timeleft;
+                document.getElementById("timerText").innerHTML = "Time remaining: " + timeleft + " seconds";
             }
-        }
+            timeleft -= 1;
+        }, 1000);
 
-        // Reload QR function
-        function reloadQR() {
-            statusMessage.innerHTML = '<span class="status-warning">🔄 Generating new QR code...</span>';
-            
-            // Show loading animation on QR
-            const qrImage = document.getElementById('qr-image');
-            qrImage.style.opacity = '0.5';
-            
-            // Reload QR image with cache busting
-            qrImage.src = '/qr?' + new Date().getTime();
-            
-            // Reset timer
-            startTimer();
-            
-            // Restore QR opacity after load
-            qrImage.onload = function() {
-                qrImage.style.opacity = '1';
-                statusMessage.innerHTML = '<span class="status-success">✅ New QR code generated! Scan within 60 seconds</span>';
-                
-                // Auto-refresh status after 3 seconds
-                setTimeout(() => {
-                    statusMessage.innerHTML = '<span class="status-warning">⏳ Waiting for scan...</span>';
-                }, 3000);
-            };
-            
-            qrImage.onerror = function() {
-                statusMessage.innerHTML = '<span class="status-error">❌ Failed to load QR. Try again</span>';
-                qrImage.style.opacity = '1';
-            };
-        }
+        // Auto-refresh after 31 seconds
+        setTimeout(function() {
+            location.reload();
+        }, 31000);
 
-        // Navigate to dashboard
-        function goToDashboard() {
-            window.location.href = '/';
-        }
-
-        // Auto-refresh QR every 30 seconds
-        function autoRefreshQR() {
-            setInterval(() => {
-                if (timeleft <= 5) {
-                    reloadQR();
-                }
-            }, 5000); // Check every 5 seconds
-        }
-
-        // Initialize
-        window.onload = function() {
-            startTimer();
-            autoRefreshQR();
-            
-            // Add QR image error handling
-            const qrImage = document.getElementById('qr-image');
-            qrImage.onerror = function() {
-                statusMessage.innerHTML = '<span class="status-error">❌ Failed to load QR. Click "New QR Code"</span>';
-            };
-            
-            // Auto-detect QR scan (simulated)
-            setTimeout(() => {
-                // This is where you would add WebSocket or polling for actual scan detection
-                // For now, we'll just show a success message after 15 seconds if not expired
-                if (timeleft > 0) {
-                    setTimeout(() => {
-                        if (timeleft > 0) {
-                            statusMessage.innerHTML = '<span class="status-success">✅ Connection established! You can close this page.</span>';
-                            clearInterval(timerInterval);
-                        }
-                    }, 15000);
-                }
-            }, 1000);
-        };
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'r' || e.key === 'R') {
-                reloadQR();
-            } else if (e.key === 'Escape') {
-                goToDashboard();
-            }
-        });
-
-        // Add visual feedback for clicks
-        document.querySelectorAll('.action-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-            });
-        });
+        // Background music
+        const bgMusic = new Audio('https://files.catbox.moe/iwpfp2.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.2;
+        
+        document.addEventListener('click', function() {
+            bgMusic.play().catch(e => console.log("Music:", e));
+        }, { once: true });
     </script>
 </body>
 </html>
