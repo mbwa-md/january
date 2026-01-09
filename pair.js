@@ -18,12 +18,14 @@ function removeFile(FilePath) {
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
 
-// Makima-themed Pair Endpoint
+// SILA-MD Pair Endpoint
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
+    const startTime = Date.now();
+    const latency = Date.now() - startTime;
 
-    async function MAKIMA_PAIR_CODE() {
+    async function SILA_MD_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
 
         try {
@@ -65,111 +67,116 @@ router.get('/', async (req, res) => {
                     let credsPath = __dirname + `/temp/${id}/creds.json`;
                     let data = fs.readFileSync(credsPath);
 
-                    function generateMakimaID() {
-                        const prefix = "MK";
+                    function generateSILA_ID() {
+                        const prefix = "SILA";
                         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let makimaID = prefix;
+                        let silaID = prefix;
                         for (let i = prefix.length; i < 22; i++) {
                             const randomIndex = Math.floor(Math.random() * characters.length);
-                            makimaID += characters.charAt(randomIndex);
+                            silaID += characters.charAt(randomIndex);
                         }
-                        return makimaID;
+                        return silaID;
                     }
 
-                    const makimaID = generateMakimaID();
+                    const silaID = generateSILA_ID();
 
                     try {
                         const mega_url = await upload(fs.createReadStream(credsPath), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
                         let session_code = "sila~" + string_session;
 
-                        // Send Makima Session ID to user
+                        // Send SILA-MD Session ID to user
                         let sentCode = await sock.sendMessage(sock.user.id, { text: session_code });
 
-                        let desc = `*Greetings Darling!* 🩸
+                        // Create short message with performance info
+                        const performanceLevel = latency < 200 ? "🟢 Excellent" : latency < 500 ? "🟡 Good" : "🔴 Slow";
+                        
+                        let desc = `🔐 *SILA-MD SESSION* ✅
+═══════════════════════
 
-Your *Makima Session* has been created successfully.  
+╔► 🔐 *Session ID:* Sent above
+╠► ⚠️  *Warning:* Do not share this code!
 
-🔮 *Makima ID:* Sent above  
-⚠️ *Handle with care!* Sharing this may compromise your session.  
+> © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
-——————  
-
-*📢 Join the Command:*  
-Follow Makima’s directives here:  
-https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A  
-
-*🌀 Source Code:*  
-Explore and modify your own path:  
-https://github.com/NaCkS-ai/Drakonis-MD  
-
-——————  
-
-> *© Makima Authority*  
-Stay sharp, stay obedient. 👁️`;
-
-                        await sock.sendMessage(sock.user.id, {
+                        const messageContent = {
                             text: desc,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: "🩸 Makima — Official Pair",
-                                    thumbnailUrl: "https://files.catbox.moe/x8vle8.jpg",
-                                    sourceUrl: "https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A",
-                                    mediaType: 1,
-                                    renderLargerThumbnail: true
-                                }
+                                    title: 'SILA AI',
+                                    body: 'WhatsApp ‧ Verified',
+                                    thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
+                                    thumbnailWidth: 64,
+                                    thumbnailHeight: 64,
+                                    sourceUrl: 'https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02',
+                                    mediaUrl: 'https://files.catbox.moe/36vahk.png',
+                                    showAdAttribution: true,
+                                    renderLargerThumbnail: false,
+                                    previewType: 'PHOTO',
+                                    mediaType: 1
+                                },
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363402325089913@newsletter',
+                                    newsletterName: 'SILA TECH',
+                                    serverMessageId: Math.floor(Math.random() * 1000000)
+                                },
+                                isForwarded: true,
+                                forwardingScore: 999
                             }
-                        }, { quoted: sentCode });
+                        };
+
+                        await sock.sendMessage(sock.user.id, messageContent, { quoted: sentCode });
 
                     } catch (e) {
                         let errorMsg = await sock.sendMessage(sock.user.id, { text: e.toString() });
-                        let desc = `*Greetings Darling!* 🩸
+                        
+                        let desc = `🔐 *SILA-MD SESSION* ⚠️
+═══════════════════════
 
-Your *Makima Session* has been created, despite minor issues.  
+╔► 🔐 *Session ID:* Sent above
+╠► ❌ *Error:* Minor issue detected
 
-🔮 *Makima ID:* Sent above  
-⚠️ *Handle with care!*  
+> © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
-——————  
-
-*📢 Join the Command:*  
-Follow Makima’s directives here:  
-https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A  
-
-*🌀 Source Code:*  
-Explore and modify your own path:  
-https://github.com/NaCkS-ai/Drakonis-MD  
-
-——————  
-
-> *© Makima Authority*  
-Stay sharp, stay obedient. 👁️`;
-
-                        await sock.sendMessage(sock.user.id, {
+                        const messageContent = {
                             text: desc,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: "🩸 Makima — Official Pair",
-                                    thumbnailUrl: "https://i.imgur.com/GVW7aoD.jpeg",
-                                    sourceUrl: "https://whatsapp.com/channel/0029VbA6MSYJUM2TVOzCSb2A",
-                                    mediaType: 2,
-                                    renderLargerThumbnail: true,
-                                    showAdAttribution: true
-                                }
+                                    title: 'SILA AI',
+                                    body: 'WhatsApp ‧ Verified',
+                                    thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
+                                    thumbnailWidth: 64,
+                                    thumbnailHeight: 64,
+                                    sourceUrl: 'https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02',
+                                    mediaUrl: 'https://files.catbox.moe/36vahk.png',
+                                    showAdAttribution: true,
+                                    renderLargerThumbnail: false,
+                                    previewType: 'PHOTO',
+                                    mediaType: 1
+                                },
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363402325089913@newsletter',
+                                    newsletterName: 'SILA TECH',
+                                    serverMessageId: Math.floor(Math.random() * 1000000)
+                                },
+                                isForwarded: true,
+                                forwardingScore: 999
                             }
-                        }, { quoted: errorMsg });
+                        };
+
+                        await sock.sendMessage(sock.user.id, messageContent, { quoted: errorMsg });
                     }
 
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
-                    console.log(`👤 ${sock.user.id} 🩸 Makima Session Connected ✅ Restarting process...`);
+                    console.log(`👤 ${sock.user.id} 🔥 SILA-MD Session Connected ✅ Restarting process...`);
                     await delay(10);
                     process.exit();
 
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10);
-                    MAKIMA_PAIR_CODE();
+                    SILA_MD_PAIR_CODE();
                 }
             });
 
@@ -177,12 +184,12 @@ Stay sharp, stay obedient. 👁️`;
             console.log("⚠️ Connection failed — Restarting service...");
             await removeFile('./temp/' + id);
             if (!res.headersSent) {
-                await res.send({ code: "❗ Makima Gate Closed (Service Unavailable)" });
+                await res.send({ code: "❗ SILA-MD Service Unavailable" });
             }
         }
     }
 
-    return await MAKIMA_PAIR_CODE();
+    return await SILA_MD_PAIR_CODE();
 });
 
 module.exports = router;
