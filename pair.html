@@ -1,563 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SILA-MD PAIR CODE</title>
-  <link rel="stylesheet" href="css/all.min.css">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      font-family: "Segoe UI", system-ui, sans-serif;
-      color: #fff;
-      overflow: hidden;
-      position: relative;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILA MD - Pairing Code</title>
+    <link rel="shortcut icon" href="https://files.catbox.moe/36vahk.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
 
-    /* Tech Grid Background */
-    .tech-grid {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px) 0 0 / 50px 50px,
-        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px) 0 0 / 50px 50px;
-      z-index: -2;
-    }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #000000, #110022, #002211, #000033);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .floating-shapes {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    .shape {
-      position: absolute;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-      border-radius: 50%;
-      animation: floatShape 20s infinite linear;
-    }
+        .container {
+            background: rgba(20, 20, 45, 0.92);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            border: 3px solid rgba(0, 255, 255, 0.4);
+            box-shadow: 
+                0 0 60px rgba(0, 150, 255, 0.7),
+                inset 0 0 30px rgba(0, 100, 255, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
 
-    @keyframes floatShape {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(-1000px) rotate(720deg); }
-    }
+        .container:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: shine 3s linear infinite;
+            z-index: 0;
+        }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 1;
-    }
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
 
-    .tech-card {
-      width: 380px;
-      padding: 30px;
-      position: relative;
-      text-align: center;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 20px;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      box-shadow: 
-        0 0 30px rgba(59, 130, 246, 0.2),
-        inset 0 0 60px rgba(59, 130, 246, 0.05);
-      backdrop-filter: blur(10px);
-      animation: pulseGlow 4s infinite alternate;
-      overflow: hidden;
-    }
+        .content {
+            position: relative;
+            z-index: 1;
+        }
 
-    .tech-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(59, 130, 246, 0.1) 50%,
-        transparent 70%
-      );
-      animation: shine 3s infinite linear;
-    }
+        h1 {
+            color: #00ffff;
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 40px rgba(0, 100, 255, 0.5);
+        }
 
-    @keyframes shine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
-    }
+        .subtitle {
+            color: #ccccff;
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
 
-    @keyframes pulseGlow {
-      0% {
-        box-shadow: 
-          0 0 30px rgba(59, 130, 246, 0.2),
-          inset 0 0 60px rgba(59, 130, 246, 0.05);
-        border-color: rgba(59, 130, 246, 0.3);
-      }
-      50% {
-        box-shadow: 
-          0 0 40px rgba(59, 130, 246, 0.3),
-          inset 0 0 80px rgba(59, 130, 246, 0.1);
-        border-color: rgba(59, 130, 246, 0.5);
-      }
-      100% {
-        box-shadow: 
-          0 0 30px rgba(59, 130, 246, 0.2),
-          inset 0 0 60px rgba(59, 130, 246, 0.05);
-        border-color: rgba(59, 130, 246, 0.3);
-      }
-    }
+        .input-section {
+            background: rgba(10, 10, 30, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            margin: 30px 0;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
 
-    #text {
-      color: #93c5fd;
-      position: relative;
-      z-index: 2;
-    }
+        .phone-input {
+            width: 100%;
+            padding: 20px;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
+        .phone-input:focus {
+            border-color: #ff00ff;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+            background: rgba(20, 0, 40, 0.8);
+        }
 
-    .tech-logo {
-      width: 60px;
-      height: 60px;
-      filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
-    }
+        .phone-input::placeholder {
+            color: #8888cc;
+        }
 
-    .title-container h2 {
-      font-size: 2rem;
-      margin: 0;
-      background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-    }
+        .generate-btn {
+            padding: 20px 50px;
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00ffff, #ff00ff);
+            color: black;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            width: 100%;
+        }
 
-    .title-container h6 {
-      margin: 5px 0 0 0;
-      color: #cbd5e1;
-      font-weight: 400;
-      font-size: 0.9rem;
-    }
+        .generate-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 0 40px rgba(0, 255, 255, 0.8),
+                0 0 80px rgba(255, 0, 255, 0.5);
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
 
-    .input-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 25px;
-      background: rgba(30, 41, 59, 0.7);
-      padding: 25px;
-      border-radius: 15px;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      transition: all 0.3s ease;
-    }
+        .generate-btn:active {
+            transform: translateY(0);
+        }
 
-    .input-panel:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      background: rgba(30, 41, 59, 0.9);
-    }
+        .code-display {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid rgba(255, 255, 0, 0.4);
+            margin: 40px 0;
+            display: none;
+            position: relative;
+        }
 
-    .input-panel input {
-      color: #f1f5f9;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      padding: 14px 20px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 250px;
-      text-align: center;
-      font-size: 1rem;
-      outline: none;
-      transition: all 0.3s ease;
-      font-family: 'Courier New', monospace;
-    }
+        .code-display.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
 
-    .input-panel input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-      background: rgba(15, 23, 42, 0.9);
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .input-panel input::placeholder {
-      color: #94a3b8;
-    }
+        .code-display h3 {
+            color: #ffff00;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
 
-    .input-panel button {
-      margin-top: 20px;
-      padding: 12px 35px;
-      width: 70%;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
+        #pairCode {
+            font-size: 32px;
+            font-weight: 900;
+            color: #00ff00;
+            letter-spacing: 5px;
+            padding: 20px;
+            background: rgba(0, 20, 0, 0.5);
+            border-radius: 15px;
+            border: 2px solid #00ff00;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
 
-    .input-panel button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    }
+        .copy-btn {
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #ffff00, #ffaa00);
+            color: black;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
 
-    .input-panel button:active {
-      transform: translateY(0);
-    }
+        .copy-btn:hover {
+            background: linear-gradient(90deg, #ffaa00, #ffff00);
+            box-shadow: 0 0 25px rgba(255, 255, 0, 0.7);
+        }
 
-    .input-panel button::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 70%
-      );
-      animation: buttonShine 3s infinite linear;
-    }
+        .copied-message {
+            color: #00ff00;
+            margin-top: 15px;
+            font-weight: 700;
+            display: none;
+        }
 
-    @keyframes buttonShine {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
-    }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
 
-    .status-message {
-      margin-top: 15px;
-      color: #60a5fa;
-      font-weight: 500;
-      min-height: 24px;
-    }
+        .nav-button {
+            padding: 15px 30px;
+            background: rgba(30, 30, 60, 0.8);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            min-width: 180px;
+            text-align: center;
+        }
 
-    .result-container {
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(30, 41, 59, 0.7);
-      border-radius: 12px;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      display: none;
-    }
+        .nav-button:hover {
+            background: rgba(50, 50, 100, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+        }
 
-    #pair {
-      font-family: 'Courier New', monospace;
-      color: #7dd3fc;
-      font-size: 0.9rem;
-      word-break: break-word;
-    }
+        .error-message {
+            color: #ff4444;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ff4444;
+            margin: 20px 0;
+            display: none;
+        }
 
-    .copy-btn {
-      margin-top: 10px;
-      padding: 8px 20px;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      color: #93c5fd;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: none;
-    }
+        footer {
+            margin-top: 40px;
+            color: #8888cc;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .copy-btn:hover {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: #3b82f6;
-    }
-
-    .powered-by {
-      margin-top: 30px;
-      font-size: 0.9rem;
-      color: #94a3b8;
-      text-align: center;
-    }
-
-    .powered-by strong {
-      background: linear-gradient(90deg, #3b82f6, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 600;
-    }
-
-    .loading {
-      display: none;
-      margin: 20px 0;
-    }
-
-    .loading-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .loading-dots span {
-      width: 10px;
-      height: 10px;
-      background: #3b82f6;
-      border-radius: 50%;
-      animation: bounce 1.4s infinite ease-in-out both;
-    }
-
-    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
-    }
-
-    .tech-links {
-      margin-top: 20px;
-      display: flex;
-      gap: 15px;
-    }
-
-    .tech-link {
-      color: #93c5fd;
-      text-decoration: none;
-      font-size: 0.8rem;
-      padding: 6px 12px;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .tech-link:hover {
-      background: rgba(59, 130, 246, 0.1);
-      border-color: #3b82f6;
-    }
-  </style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .phone-input, .generate-btn, .copy-btn {
+                font-size: 16px;
+                padding: 15px;
+            }
+            
+            #pairCode {
+                font-size: 24px;
+                letter-spacing: 3px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .nav-button {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="tech-grid"></div>
-  <div class="floating-shapes" id="floatingShapes"></div>
-
-  <div class="container">
-    <div class="tech-card">
-      <div id="text">
-        <div class="card-header">
-          <img src="https://files.catbox.moe/36vahk.png" alt="SILA TECH" class="tech-logo">
-          <div class="title-container">
-            <h2>SILA-MD PAIR</h2>
-            <h6>Enter WhatsApp number with country code</h6>
-          </div>
-        </div>
-        
-        <div class="input-panel">
-          <input 
-            type="tel" 
-            id="number" 
-            placeholder="Example: 255123456789" 
-            pattern="[0-9]{10,15}"
-            title="Enter 10-15 digits with country code"
-            name="number"
-          >
-          <div class="loading" id="loading">
-            <div class="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
+    <div class="container">
+        <div class="content">
+            <h1>SILA MD PAIR CODE</h1>
+            <div class="subtitle">Generate Pairing Code for WhatsApp Connection</div>
+            <div class="subtitle"></div>
+            
+            <div class="input-section">
+                <h3 style="color: #00ffff; margin-bottom: 20px;">Enter Your WhatsApp Number</h3>
+                <p style="color: #ccccff; margin-bottom: 20px;">Include country code (e.g., 255123456789)</p>
+                
+                <input type="tel" 
+                       id="phoneNumber" 
+                       class="phone-input" 
+                       placeholder="Enter phone number with country code"
+                       pattern="[0-9]{10,15}"
+                       required>
+                
+                <button id="generateBtn" class="generate-btn">
+                    ⚡ GENERATE PAIRING CODE
+                </button>
+                
+                <div id="errorMessage" class="error-message">
+                    ❌ Please enter a valid phone number (10-15 digits)
+                </div>
             </div>
-          </div>
-          <button id="submit">GENERATE CODE</button>
-          <div class="status-message" id="statusMessage"></div>
+            
+            <div id="codeDisplay" class="code-display">
+                <h3>✨ YOUR PAIRING CODE ✨</h3>
+                <div id="pairCode">SILA-XXXX-XXXX-MD</div>
+                <button id="copyBtn" class="copy-btn">
+                    📋 COPY CODE TO CLIPBOARD
+                </button>
+                <div id="copiedMessage" class="copied-message">
+                    ✅ Code copied successfully!
+                </div>
+                
+                <div style="margin-top: 25px; color: #ccccff; font-size: 14px;">
+                    <p>📱 <strong>How to use:</strong></p>
+                    <p>1. Save this code</p>
+                    <p>2. Send it to the bot</p>
+                    <p>3. Wait for connection confirmation</p>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <a href="/main" class="nav-button">← Back to Main</a>
+                <a href="/qr" class="nav-button">📷 QR Code Scanner</a>
+                <a href="https://chat.whatsapp.com/IdGNaKt80DEBqirc2ek4ks" class="nav-button" target="_blank">👥 Support Group</a>
+            </div>
+            
+            <footer>
+                SILA TECH © 2026
+            </footer>
         </div>
-
-        <div class="result-container" id="resultContainer">
-          <div id="pair"></div>
-          <button class="copy-btn" id="copyBtn" onclick="copyCode()">COPY CODE</button>
-        </div>
-
-        <div class="tech-links">
-          <a href="https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02" class="tech-link" target="_blank">Channel</a>
-          <a href="https://chat.whatsapp.com/IdGNaKt80DEBqirc2ek4ks" class="tech-link" target="_blank">Group</a>
-          <a href="https://github.com/Sila-Md/SILA-M.D" class="tech-link" target="_blank">GitHub</a>
-        </div>
-      </div>
     </div>
-    
-    <div class="powered-by">
-      ⚡ Powered by <strong>SILA TECH</strong> • © 2026
-    </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-  <script>
-    // Create floating shapes
-    const floatingShapes = document.getElementById('floatingShapes');
-    for (let i = 0; i < 15; i++) {
-      const shape = document.createElement('div');
-      shape.className = 'shape';
-      shape.style.width = shape.style.height = `${Math.random() * 80 + 20}px`;
-      shape.style.left = `${Math.random() * 100}%`;
-      shape.style.animationDuration = `${Math.random() * 20 + 20}s`;
-      shape.style.animationDelay = `${Math.random() * 5}s`;
-      shape.style.opacity = Math.random() * 0.05 + 0.02;
-      floatingShapes.appendChild(shape);
-    }
-
-    // DOM Elements
-    const pairDisplay = document.getElementById("pair");
-    const submitBtn = document.getElementById("submit");
-    const numberInput = document.getElementById("number");
-    const statusMessage = document.getElementById("statusMessage");
-    const resultContainer = document.getElementById("resultContainer");
-    const copyBtn = document.getElementById("copyBtn");
-    const loading = document.getElementById("loading");
-
-    // Format number input
-    numberInput.addEventListener('input', function(e) {
-      let value = e.target.value.replace(/\D/g, '');
-      if (value.length > 15) {
-        value = value.substring(0, 15);
-      }
-      e.target.value = value;
-    });
-
-    // Handle form submission
-    submitBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      
-      const number = numberInput.value.trim();
-      
-      // Validation
-      if (!number) {
-        showStatus("⚠️ Please enter WhatsApp number", "error");
-        return;
-      }
-      
-      if (number.length < 10 || number.length > 15) {
-        showStatus("❌ Invalid number format (10-15 digits)", "error");
-        return;
-      }
-      
-      // Show loading
-      submitBtn.disabled = true;
-      loading.style.display = 'block';
-      showStatus("🔄 Generating pairing code...", "info");
-      resultContainer.style.display = 'none';
-      
-      try {
-        // Make request to pair endpoint
-        const response = await axios.get(`/pair?number=${number}`, {
-          timeout: 30000
-        });
+    <script>
+        // Background music
+        const bgMusic = new Audio('https://files.catbox.moe/iwpfp2.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.2;
         
-        if (response.data && response.data.code) {
-          displayPairCode(response.data.code);
-        } else {
-          throw new Error('Invalid response from server');
+        document.addEventListener('click', function() {
+            bgMusic.play().catch(e => console.log("Music:", e));
+        }, { once: true });
+
+        const generateBtn = document.getElementById('generateBtn');
+        const phoneInput = document.getElementById('phoneNumber');
+        const codeDisplay = document.getElementById('codeDisplay');
+        const pairCode = document.getElementById('pairCode');
+        const copyBtn = document.getElementById('copyBtn');
+        const copiedMessage = document.getElementById('copiedMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Generate random pairing code
+        function generatePairCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+            let code = 'SILA-';
+            
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+                if (i === 3) code += '-';
+            }
+            
+            code += '-MD';
+            return code;
         }
-      } catch (error) {
-        console.error('Error:', error);
-        if (error.response) {
-          showStatus(`❌ Server error: ${error.response.status}`, "error");
-        } else if (error.request) {
-          showStatus("❌ Network error - Check connection", "error");
-        } else {
-          showStatus("❌ Failed to generate code", "error");
+
+        // Validate phone number
+        function validatePhoneNumber(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            return cleaned.length >= 10 && cleaned.length <= 15;
         }
-      } finally {
-        submitBtn.disabled = false;
-        loading.style.display = 'none';
-      }
-    });
 
-    function showStatus(message, type) {
-      statusMessage.textContent = message;
-      statusMessage.style.color = type === 'error' ? '#ef4444' : 
-                                 type === 'success' ? '#10b981' : 
-                                 '#60a5fa';
-    }
+        // Generate button click event
+        generateBtn.addEventListener('click', function() {
+            const phone = phoneInput.value.trim();
+            
+            if (!validatePhoneNumber(phone)) {
+                errorMessage.style.display = 'block';
+                phoneInput.style.borderColor = '#ff4444';
+                phoneInput.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.5)';
+                return;
+            }
+            
+            errorMessage.style.display = 'none';
+            phoneInput.style.borderColor = '#00ff00';
+            phoneInput.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.5)';
+            
+            // Generate and display code
+            const code = generatePairCode();
+            pairCode.textContent = code;
+            codeDisplay.classList.add('show');
+            
+            // Scroll to code display
+            codeDisplay.scrollIntoView({ behavior: 'smooth' });
+            
+            // Auto-copy to clipboard after 1 second
+            setTimeout(() => {
+                navigator.clipboard.writeText(code).then(() => {
+                    copiedMessage.style.display = 'block';
+                    setTimeout(() => {
+                        copiedMessage.style.display = 'none';
+                    }, 3000);
+                });
+            }, 1000);
+        });
 
-    function displayPairCode(code) {
-      pairDisplay.innerHTML = `
-        <div style="margin-bottom: 10px;">
-          <strong style="color: #3b82f6;">PAIRING CODE:</strong>
-        </div>
-        <div style="
-          background: rgba(15, 23, 42, 0.8);
-          padding: 15px;
-          border-radius: 10px;
-          border: 1px solid rgba(59, 130, 246, 0.3);
-          font-size: 1.2rem;
-          letter-spacing: 2px;
-          font-weight: bold;
-          color: #7dd3fc;
-          margin: 10px 0;
-        ">
-          ${code}
-        </div>
-        <div style="color: #cbd5e1; font-size: 0.9rem;">
-          Use this code to pair your WhatsApp with SILA-MD Bot
-        </div>
-      `;
-      
-      copyBtn.style.display = 'block';
-      resultContainer.style.display = 'block';
-      showStatus("✅ Pairing code generated successfully!", "success");
-      
-      // Scroll to result
-      resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+        // Copy button click event
+        copyBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(pairCode.textContent).then(() => {
+                copiedMessage.style.display = 'block';
+                copyBtn.innerHTML = '✅ COPIED!';
+                copyBtn.style.background = 'linear-gradient(90deg, #00ff00, #00cc00)';
+                
+                setTimeout(() => {
+                    copiedMessage.style.display = 'none';
+                    copyBtn.innerHTML = '📋 COPY CODE TO CLIPBOARD';
+                    copyBtn.style.background = 'linear-gradient(90deg, #ffff00, #ffaa00)';
+                }, 3000);
+            });
+        });
 
-    async function copyCode() {
-      const codeText = pairDisplay.textContent.match(/PAIRING CODE:\s*([\s\S]+?)(?=\s*Use this)/);
-      if (codeText && codeText[1]) {
-        const code = codeText[1].trim();
-        try {
-          await navigator.clipboard.writeText(code);
-          copyBtn.innerHTML = '✓ COPIED';
-          copyBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-          copyBtn.style.borderColor = '#10b981';
-          
-          setTimeout(() => {
-            copyBtn.innerHTML = 'COPY CODE';
-            copyBtn.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
-            copyBtn.style.borderColor = 'rgba(59, 130, 246, 0.3)';
-          }, 2000);
-        } catch (err) {
-          showStatus("❌ Failed to copy to clipboard", "error");
-        }
-      }
-    }
+        // Enter key support
+        phoneInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
 
-    // Add enter key support
-    numberInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        submitBtn.click();
-      }
-    });
-
-    // Add input focus effect
-    numberInput.addEventListener('focus', function() {
-      this.parentElement.style.borderColor = 'rgba(59, 130, 246, 0.4)';
-      this.parentElement.style.background = 'rgba(30, 41, 59, 0.9)';
-    });
-
-    numberInput.addEventListener('blur', function() {
-      this.parentElement.style.borderColor = 'rgba(59, 130, 246, 0.2)';
-      this.parentElement.style.background = 'rgba(30, 41, 59, 0.7)';
-    });
-  </script>
+        // Input validation on typing
+        phoneInput.addEventListener('input', function() {
+            const phone = this.value.trim();
+            if (validatePhoneNumber(phone)) {
+                errorMessage.style.display = 'none';
+                this.style.borderColor = '#00ffff';
+                this.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.5)';
+            }
+        });
+    </script>
 </body>
 </html>
