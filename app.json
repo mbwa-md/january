@@ -1,9 +1,9 @@
 {
-    "name": "pair session",
-    "description": "Web Session Generator",
-    "logo": "https://i.imgur.com/teQzVR1.jpeg",
-    "repository": "https://github.com/XdKing2/malvin-pair",
-    "keywords": ["MalvinTech","XdKing2"],
+    "name": "SILA-MD",
+    "description": "Pair Session Generator",
+    "logo": "https://files.catbox.moe/36vahk.png",
+    "repository": "https://github.com/Sila-Md/SILA-M.D",
+    "keywords": ["SILA-MD", "SILA-TECH", "MBWA-MD"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
     "env": {      
@@ -13,5 +13,4 @@
         "required": false 
       }
     }   
-
 }
