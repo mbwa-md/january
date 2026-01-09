@@ -103,8 +103,8 @@ router.get('/', async (req, res) => {
                             text: desc,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA BOT',
+                                    body: 'WhatsApp Bot',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
@@ -142,8 +142,8 @@ router.get('/', async (req, res) => {
                             text: desc,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA MD',
+                                    body: 'WhatsApp Bo',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
