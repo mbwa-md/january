@@ -26,12 +26,8 @@ router.get('/', async (req, res) => {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         
         try {
-            var items = ["Safari", "Chrome", "Firefox"];
-            function selectRandomItem(array) {
-                var randomIndex = Math.floor(Math.random() * array.length);
-                return array[randomIndex];
-            }
-            var randomItem = selectRandomItem(items);
+            const items = ["Safari", "Chrome", "Firefox"];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
             
             let sock = makeWASocket({
                 auth: state,
@@ -45,13 +41,11 @@ router.get('/', async (req, res) => {
             sock.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect, qr } = s;
                 const latency = Date.now() - startTime;
-                const performanceLevel = latency < 200 ? "🟢 Excellent" : latency < 500 ? "🟡 Good" : "🔴 Slow";
                 
                 if (qr) await res.end(await QRCode.toBuffer(qr));
                 
                 if (connection == "open") {
                     await delay(3000);
-                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                     let rf = __dirname + `/temp/${id}/creds.json`;
                     
                     function generateSILA_ID() {
@@ -59,8 +53,7 @@ router.get('/', async (req, res) => {
                         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         let silaID = prefix;
                         for (let i = prefix.length; i < 22; i++) {
-                            const randomIndex = Math.floor(Math.random() * characters.length);
-                            silaID += characters.charAt(randomIndex);
+                            silaID += characters.charAt(Math.floor(Math.random() * characters.length));
                         }
                         return silaID;
                     }
@@ -74,24 +67,30 @@ router.get('/', async (req, res) => {
                         
                         let code = await sock.sendMessage(sock.user.id, { text: session_code });
                         
-                        let desc = `🚀 *SILA-MD SESSION* ✅
-═══════════════════════
-
-🔐 *Session ID:* Sent above
-⚠️  *Warning:* Do not share this code!
-
-╔► 𝐏𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐋𝐞𝐯𝐞𝐥:
-╠► ${performanceLevel}
-╚► → 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐭𝐢𝐦𝐞: ${latency}𝐦𝐬
+                        // ===== Updated Styled Message =====
+                        let desc = `┏━❑ *SILA-MD SESSION* ✅
+┏━❑ *SAFETY RULES* ━━━━━━━━━
+┃ 🔹 *Session ID:* Sent above.
+┃ 🔹 *Warning:* Do not share this code!.
+┃ 🔹 Keep this code safe.
+┃ 🔹 Valid for 24 hours only.
+┗━━━━━━━━━━━━━━━
+┏━❑ *CHANNEL* ━━━━━━━━━
+┃ 📢 Follow our channel: https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02
+┗━━━━━━━━━━━━━━━
+┏━❑ *REPOSITORY* ━━━━━━━━━
+┃ 💻 Repository: https://github.com/Sila-Md/SILA-MD
+┃ 👉 Fork & contribute!
+┗━━━━━━━━━━━━━━━
 
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
-                        
+
                         await sock.sendMessage(sock.user.id, {
-                            text: desc,
+                            text: text,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA MD',
+                                    body: '© Sila Tech',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
@@ -104,35 +103,41 @@ router.get('/', async (req, res) => {
                                 },
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: '120363402325089913@newsletter',
-                                    newsletterName: 'SILA TECH',
+                                    newsletterName: '© Sila Tech',
                                     serverMessageId: Math.floor(Math.random() * 1000000)
                                 },
                                 isForwarded: true,
                                 forwardingScore: 999
                             }
-                        }, { quoted: code });
-                        
+                        }, { quoted: ddd });
+                    }
+
                     } catch (e) {
                         let ddd = await sock.sendMessage(sock.user.id, { text: e.toString() });
                         
-                        let desc = `🚀 *SILA-MD SESSION* ⚠️
-═══════════════════════
-
-🔐 *Session ID:* Sent above
-❌ *Error:* Session created with minor issues
-
-╔► 𝐏𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐋𝐞𝐯𝐞𝐥:
-╠► ${performanceLevel}
-╚► → 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐭𝐢𝐦𝐞: ${latency}𝐦𝐬
+                        let desc = `┏━❑ *SILA-MD SESSION* ⚠️
+┏━❑ *SAFETY RULES* ━━━━━━━━━
+┃ 🔹 *Session ID:* Sent above.
+┃ 🔹 *Warning:* Do not share this code!.
+┃ 🔹 Keep this code safe.
+┃ 🔹 Valid for 24 hours only.
+┗━━━━━━━━━━━━━━━
+┏━❑ *CHANNEL* ━━━━━━━━━
+┃ 📢 Follow our channel: https://whatsapp.com/channel/0029VbBG4gfISTkCpKxyMH02
+┗━━━━━━━━━━━━━━━
+┏━❑ *REPOSITORY* ━━━━━━━━━
+┃ 💻 Repository: https://github.com/Sila-Md/SILA-MD
+┃ 👉 Fork & contribute!
+┗━━━━━━━━━━━━━━━
 
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
-                        
+
                         await sock.sendMessage(sock.user.id, {
-                            text: desc,
+                            text: text,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA MD',
+                                    body: '© Sila Tech',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
@@ -145,7 +150,7 @@ router.get('/', async (req, res) => {
                                 },
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: '120363402325089913@newsletter',
-                                    newsletterName: 'SILA TECH',
+                                    newsletterName: '© Sila Tech',
                                     serverMessageId: Math.floor(Math.random() * 1000000)
                                 },
                                 isForwarded: true,
