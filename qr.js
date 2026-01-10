@@ -95,7 +95,7 @@ router.get('/', async (req, res) => {
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
                             await sock.sendMessage(sock.user.id, {
-                                text: text,
+                                text: desc,
                                 contextInfo: {
                                     externalAdReply: {
                                         title: 'SILA MD',
@@ -145,7 +145,7 @@ router.get('/', async (req, res) => {
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
                             await sock.sendMessage(sock.user.id, {
-                                text: text,
+                                text: desc,
                                 contextInfo: {
                                     externalAdReply: {
                                         title: 'SILA MD',
