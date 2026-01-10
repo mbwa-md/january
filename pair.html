@@ -1,226 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SILA MD | PAIR CODE GENERATOR</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --accent: #0099ff;
-      --accent2: #00ff9d;
-      --bg-dark: #003366;
-      --glass: rgba(15, 15, 25, 0.75);
-      --text: #aaccff;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: var(--bg-dark);
-      font-family: 'Orbitron', sans-serif;
-      color: var(--text);
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SILA MD | PAIR CODE</title>
 
-    /* Background grid effect */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: 0;
-      animation: moveGrid 20s linear infinite;
-    }
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Rajdhani:wght@600&display=swap" rel="stylesheet">
 
-    @keyframes moveGrid {
-      from { background-position: 0 0; }
-      to { background-position: 40px 40px; }
-    }
+<style>
+:root{
+  --green:#00ff88;
+  --yellow:#ffe600;
+  --panel:rgba(6,20,30,.85);
+  --text:#eaffff;
+}
 
-    /* Container */
-    .frame {
-      position: relative;
-      z-index: 5;
-      max-width: 360px;
-      margin: auto;
-      top: 20%;
-      padding: 35px 30px;
-      border-radius: 18px;
-      background: var(--glass);
-      backdrop-filter: blur(14px) saturate(180%);
-      border: 1px solid rgba(0, 255, 255, 0.25);
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.35), 0 0 50px rgba(255, 0, 128, 0.25);
-      text-align: center;
-      animation: fadeIn 1.5s ease;
-    }
+*{box-sizing:border-box}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+html,body{
+  margin:0;
+  height:100%;
+  font-family:Rajdhani,sans-serif;
+  color:var(--text);
+  background:url("https://files.catbox.moe/36vahk.png") center/cover no-repeat fixed;
+  overflow:hidden;
+  position:relative;
+}
 
-    /* Glitch Header */
-    .title {
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-      font-family: 'Share Tech Mono', monospace;
-      text-transform: uppercase;
-      color: var(--accent);
-      position: relative;
-      animation: glitch 2s infinite;
-    }
+/* Dark overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:0;
+  transition:background 0.3s ease;
+}
 
-    @keyframes glitch {
-      0% { text-shadow: 2px 0 var(--accent2), -2px 0 var(--accent); }
-      20% { text-shadow: -2px -2px var(--accent2), 2px 2px var(--accent); }
-      40% { text-shadow: 2px -2px var(--accent2), -2px 2px var(--accent); }
-      60%, 100% { text-shadow: none; }
-    }
+/* CARD */
+.frame{
+  position:relative;
+  z-index:2;
+  max-width:400px;
+  margin:auto;
+  top:16%;
+  padding:34px;
+  border-radius:24px;
+  background:var(--panel);
+  backdrop-filter:blur(18px);
+  text-align:center;
+  border:2px solid transparent;
+  animation:borderFlow 5s linear infinite;
+  box-shadow:0 0 50px rgba(0,255,136,.4);
+}
 
-    /* Input & Button */
-    .input-container {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
+@keyframes borderFlow{
+  0%{border-image:linear-gradient(0deg,var(--green),var(--yellow)) 1}
+  100%{border-image:linear-gradient(360deg,var(--green),var(--yellow)) 1}
+}
 
-    .input-container input {
-      flex: 1;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(0,255,255,0.4);
-      background: rgba(255,255,255,0.1);
-      color: var(--text);
-      outline: none;
-      font-family: 'Share Tech Mono', monospace;
-    }
+/* HEADER */
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
 
-    .input-container input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
-    }
+.title{
+  font-family:JetBrains Mono,monospace;
+  font-size:1.15rem;
+  letter-spacing:3px;
+  color:var(--yellow);
+}
 
-    .input-container button {
-      padding: 12px 16px;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 0.95rem;
-      cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      transition: 0.3s;
-      box-shadow: 0 0 14px rgba(0, 255, 255, 0.5);
-    }
+/* LANGUAGE SWITCH */
+.lang{
+  display:flex;
+  gap:6px;
+}
 
-    .input-container button:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7),
-                  0 0 30px rgba(255, 0, 128, 0.4);
-    }
+.lang button{
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.25);
+  background:#020814;
+  color:var(--text);
+  font-size:.7rem;
+  cursor:pointer;
+}
 
-    /* Terminal response */
-    #waiting-message {
-      display: none;
-      font-family: 'Share Tech Mono', monospace;
-      text-align: left;
-      background: rgba(0,0,0,0.6);
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 12px;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      border: 1px solid rgba(0,255,255,0.2);
-      box-shadow: inset 0 0 10px rgba(0,255,255,0.2);
-    }
+.lang button.active{
+  background:linear-gradient(135deg,var(--yellow),var(--green));
+  color:#02140c;
+}
 
-    /* Copy button */
-    #copy-btn {
-      display: none;
-      margin-top: 15px;
-      padding: 10px 18px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.9rem;
-      color: #fff;
-      background: linear-gradient(135deg, #00ff99, #00cc66);
-      box-shadow: 0 0 12px rgba(0,255,150,0.6);
-      transition: 0.3s;
-    }
+/* SUBTITLE */
+#subtitle{
+  font-size:.7rem;
+  letter-spacing:.35em;
+  opacity:.85;
+  margin-bottom:22px;
+}
 
-    #copy-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 18px rgba(0,255,150,0.9);
-    }
-  </style>
+/* INPUT */
+.input-container{
+  display:flex;
+  gap:12px;
+}
+
+input{
+  flex:1;
+  padding:14px;
+  border-radius:14px;
+  background:#020814;
+  border:1px solid rgba(0,255,136,.4);
+  color:var(--text);
+  font-family:JetBrains Mono;
+}
+
+button.main{
+  padding:14px 18px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--yellow),var(--green));
+  color:#02130c;
+}
+
+/* MESSAGE */
+#waiting-message{
+  display:none;
+  margin-top:18px;
+  padding:14px;
+  background:#010614;
+  border-radius:14px;
+  font-family:JetBrains Mono;
+  font-size:.9rem;
+  text-align:left;
+}
+
+#copy-btn{
+  display:none;
+  margin-top:18px;
+  width:100%;
+  border-radius:30px;
+  background:linear-gradient(135deg,#fff200,#00ff88);
+  font-weight:700;
+}
+
+/* FLOATING WHATSAPP */
+.msg-btn{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:linear-gradient(135deg,#25d366,#00ff88);
+  color:#001;
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 0 25px rgba(0,255,136,.8);
+  animation:float 2s ease-in-out infinite;
+  z-index:5;
+}
+
+@keyframes float{
+  50%{transform:translateY(-8px)}
+}
+
+/* CONTROL BUTTONS */
+.controls{
+  position:fixed;
+  bottom:22px;
+  left:22px;
+  display:flex;
+  gap:10px;
+  z-index:5;
+}
+
+.controls button{
+  padding:10px 14px;
+  border:none;
+  border-radius:50px;
+  font-weight:700;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--yellow),var(--green));
+  color:#02130c;
+  box-shadow:0 0 18px rgba(0,255,136,.6);
+}
+
+audio{display:none}
+</style>
 </head>
+
 <body>
 
 <div class="frame">
-  <p class="title">SILA MD | PAIR CODE</p>
-
-  <div class="input-container">
-    <input placeholder="Enter WhatsApp Number" type="number" id="number">
-    <button id="submit">ENTER</button>
+  <div class="top">
+    <div class="title">SILA MD</div>
+    <div class="lang">
+      <button id="en" class="active">EN</button>
+      <button id="sw">SW</button>
+    </div>
   </div>
 
-  <p id="waiting-message">Please Wait...</p>
-  <button id="copy-btn">📋 Copy Code</button>
+  <div id="subtitle"></div>
+
+  <div class="input-container">
+    <input id="number" type="number">
+    <button class="main" id="submit"></button>
+  </div>
+
+  <div id="waiting-message"></div>
+  <button id="copy-btn"></button>
 </div>
 
+<!-- Floating WhatsApp -->
+<a class="msg-btn" href="https://wa.me/255789661031" target="_blank">💬 MESSAGE</a>
+
+<!-- Controls -->
+<div class="controls">
+  <button id="toggle-music">⏯ Play / Pause</button>
+  <button id="toggle-overlay">🌙 Overlay</button>
+</div>
+
+<audio id="bgm" src="https://files.catbox.moe/iwpfp2.mp3" loop></audio>
+
 <script>
-  const msg = document.getElementById("waiting-message");
-  const submitBtn = document.getElementById("submit");
-  const numberInput = document.getElementById("number");
-  const copyBtn = document.getElementById("copy-btn");
+/* MUSIC */
+const bgm=document.getElementById("bgm");
+document.addEventListener("click",()=>{if(bgm.paused) bgm.play()},{once:true});
+document.getElementById("toggle-music").onclick=()=>bgm.paused?bgm.play():bgm.pause();
 
-  submitBtn.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const value = numberInput.value.replace(/[^0-9]/g, "");
-
-    if (!value) {
-      msg.innerText = "⚠ Enter your WhatsApp number with Country Code";
-      msg.style.display = "block";
-      copyBtn.style.display = "none";
-      return;
+/* DARK OVERLAY */
+const overlay=document.body;
+let overlayOn=true;
+document.getElementById("toggle-overlay").onclick=()=>{
+  overlayOn=!overlayOn;
+  overlay.style.setProperty("--overlay-opacity", overlayOn?'.65':'0');
+  document.querySelector('body::before');
+  document.body.style.setProperty('--overlay-opacity', overlayOn?'.65':'0');
+  document.body.style.backgroundColor='rgba(0,0,0,'+(overlayOn?.65:0)+')';
+  // simple hack: adjust pseudo element
+  const styleEl = document.styleSheets[0];
+  for(let i=0;i<styleEl.cssRules.length;i++){
+    if(styleEl.cssRules[i].selectorText=='body::before'){
+      styleEl.cssRules[i].style.background=`rgba(0,0,0,${overlayOn?.65:0})`;
     }
+  }
+};
 
-    if (value.length < 11) {
-      msg.innerText = "❌ Invalid Number";
-      msg.style.display = "block";
-      copyBtn.style.display = "none";
-      return;
-    }
+/* LANGUAGE DATA */
+const T={
+  en:{sub:"PAIR CODE SYSTEM",ph:"WhatsApp Number",enter:"ENTER",invalid:"Invalid WhatsApp number",gen:"Generating code...",code:"PAIR CODE: ",copy:"📋 COPY CODE",copied:"✔ COPIED"},
+  sw:{sub:"MFUMO WA PAIR CODE",ph:"Namba ya WhatsApp",enter:"INGIA",invalid:"Namba si sahihi",gen:"Inazalisha code...",code:"CODE: ",copy:"📋 NAKILI CODE",copied:"✔ IMENAKILIWA"}
+};
 
-    msg.innerText = "⏳ Please Wait...";
-    msg.style.display = "block";
+let lang="en";
+const subtitle=document.getElementById("subtitle");
+const number=document.getElementById("number");
+const submit=document.getElementById("submit");
+const msg=document.getElementById("waiting-message");
+const copy=document.getElementById("copy-btn");
 
-    try {
-      const res = await fetch(`/code?number=${value}`);
-      const data = await res.json();
-      const code = data.code || "Service Unavailable";
+function setLang(l){
+  lang=l;
+  subtitle.textContent=T[l].sub;
+  number.placeholder=T[l].ph;
+  submit.textContent=T[l].enter;
+  document.getElementById("en").classList.toggle("active",l==="en");
+  document.getElementById("sw").classList.toggle("active",l==="sw");
+}
+setLang("en");
+en.onclick=()=>setLang("en");
+sw.onclick=()=>setLang("sw");
 
-      msg.innerText = "✅ CODE: " + code;
-      copyBtn.style.display = "inline-block";
-
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(code);
-        copyBtn.innerText = "✔ Copied!";
-        setTimeout(() => (copyBtn.innerText = "📋 Copy Code"), 2000);
-      };
-    } catch (err) {
-      msg.innerText = "❌ Error fetching code.";
-      copyBtn.style.display = "none";
-    }
-  });
+/* PAIR CODE LOGIC */
+submit.onclick=async()=>{
+  const v=number.value.replace(/\D/g,"");
+  if(!v||v.length<11){
+    msg.style.display="block"; msg.textContent=T[lang].invalid; copy.style.display="none"; return;
+  }
+  msg.style.display="block"; msg.textContent=T[lang].gen;
+  try{
+    const r=await fetch(`/code?number=${v}`);
+    const d=await r.json();
+    const code=d.code||"Unavailable";
+    msg.textContent=T[lang].code+code;
+    copy.style.display="block"; copy.textContent=T[lang].copy;
+    copy.onclick=()=>{navigator.clipboard.writeText(code); copy.textContent=T[lang].copied; setTimeout(()=>copy.textContent=T[lang].copy,2000);}
+  }catch{msg.textContent="Service error";}
+};
 </script>
 
 </body>
