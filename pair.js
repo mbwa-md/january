@@ -95,11 +95,11 @@ router.get('/', async (req, res) => {
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
                         await sock.sendMessage(sock.user.id, {
-                            text: desc,
+                            text: text,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA MD',
+                                    body: '© Sila Tech',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
@@ -112,13 +112,13 @@ router.get('/', async (req, res) => {
                                 },
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: '120363402325089913@newsletter',
-                                    newsletterName: 'SILA TECH',
+                                    newsletterName: '© Sila Tech',
                                     serverMessageId: Math.floor(Math.random() * 1000000)
                                 },
                                 isForwarded: true,
                                 forwardingScore: 999
                             }
-                        }, { quoted: code });
+                        }, { quoted: ddd });
 
                     } catch (e) {
                         let ddd = await sock.sendMessage(sock.user.id, { text: e.toString() });
@@ -141,11 +141,11 @@ router.get('/', async (req, res) => {
 > © 𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐒𝐢𝐥𝐚 𝐓𝐞𝐜𝐡`;
 
                         await sock.sendMessage(sock.user.id, {
-                            text: desc,
+                            text: text,
                             contextInfo: {
                                 externalAdReply: {
-                                    title: 'SILA AI',
-                                    body: 'WhatsApp ‧ Verified',
+                                    title: 'SILA MD',
+                                    body: '© Sila Tech',
                                     thumbnailUrl: 'https://files.catbox.moe/36vahk.png',
                                     thumbnailWidth: 64,
                                     thumbnailHeight: 64,
@@ -158,7 +158,7 @@ router.get('/', async (req, res) => {
                                 },
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: '120363402325089913@newsletter',
-                                    newsletterName: 'SILA TECH',
+                                    newsletterName: '© Sila Tech',
                                     serverMessageId: Math.floor(Math.random() * 1000000)
                                 },
                                 isForwarded: true,
