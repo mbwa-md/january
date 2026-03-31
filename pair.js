@@ -74,7 +74,7 @@ router.get('/', async (req, res) => {
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
                         let session_code = "sila~" + string_session;
                         
-                        let code = await sock.sendMessage(sock.user.id, { text: session_code });
+                        let code = await sock.sendMessage(sock.user.id, { text: 'sila~'+ b64data });
                         
                         // ===== Message with BOX =====
                         let desc =`┏━❑ *SILA-MD SESSION* ✅
