@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 let router = express.Router();
 const pino = require("pino");
+const zlib = require('zlib');
 const { 
     default: makeWASocket, 
     useMultiFileAuthState, 
@@ -10,7 +11,6 @@ const {
     Browsers, 
     makeCacheableSignalKeyStore 
 } = require('@whiskeysockets/baileys');
-const { upload } = require('./mega');
 const { sendButtons } = require('gifted-btns');
 
 function removeFile(FilePath) {
@@ -94,16 +94,19 @@ router.get('/', async (req, res) => {
                     }
 
                     try {
-                        // Upload to mega
-                        const rf = `./temp/${id}/creds.json`;
-                        const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
-                        const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let session_code = "sila~" + string_session;
+                        // Compress session data with gzip for shorter but still long string
+                        let compressedData = zlib.gzipSync(sessionData);
+                        let b64data = compressedData.toString('base64');
+                        
+                        // Create LONG session with prefix
+                        let session_code = "sila~" + b64data;
                         
                         console.log(`📱 Session length: ${session_code.length} characters`);
+                        console.log(`📊 Original size: ${sessionData.length} bytes`);
+                        console.log(`📦 Compressed size: ${compressedData.length} bytes`);
                         
                         // Prepare message with copy button
-                        const msgText = `*━━━━━━━━━━━━━━━━━━*\n*✅ SILA-MD SESSION*\n*━━━━━━━━━━━━━━━━━━*\n\n\`\`\`${session_code}\`\`\`\n\n*📌 SESSION INFO:*\n🔹 Full Session String\n🔹 Valid for: 24 hours\n🔹 Length: ${session_code.length} chars\n\n*⚠️ WARNING:*\nDo not share this code with anyone!\nKeep it safe and secure.\n\n*━━━━━━━━━━━━━━━━━━*\n*© SILA TECH*`;
+                        const msgText = `*━━━━━━━━━━━━━━━━━━*\n*✅ SILA-MD SESSION*\n*━━━━━━━━━━━━━━━━━━*\n\n\`\`\`${session_code}\`\`\`\n\n*📌 SESSION INFO:*\n🔹 Full Session String\n🔹 Valid for: 24 hours\n🔹 Length: ${session_code.length} chars\n🔹 Original Size: ${sessionData.length} bytes\n🔹 Compressed: ${compressedData.length} bytes\n\n*⚠️ WARNING:*\nDo not share this code with anyone!\nKeep it safe and secure.\n\n*━━━━━━━━━━━━━━━━━━*\n*© SILA TECH*`;
                         
                         const msgButtons = [
                             { 
@@ -131,7 +134,7 @@ router.get('/', async (req, res) => {
 
                         await delay(2000);
                         
-                        // Send session with buttons using gifted-btns
+                        // Send session with buttons
                         let sessionSent = false;
                         let sendAttempts = 0;
                         const maxSendAttempts = 3;
@@ -154,7 +157,7 @@ router.get('/', async (req, res) => {
                                 } else {
                                     // Fallback: send plain text if buttons fail
                                     await sock.sendMessage(sock.user.id, { 
-                                        text: `*SILA-MD SESSION*\n\n${session_code}\n\nCopy this session and keep it safe!\n\n© SILA TECH` 
+                                        text: `*SILA-MD SESSION*\n\n${session_code}\n\nCopy this session and keep it safe!\n\n📊 Length: ${session_code.length} chars\n\n© SILA TECH` 
                                     });
                                     console.log("✅ Session sent as plain text fallback");
                                 }
@@ -168,7 +171,11 @@ router.get('/', async (req, res) => {
                         
                     } catch (e) {
                         console.error("Session processing error:", e);
-                        await sock.sendMessage(sock.user.id, { text: `Error: ${e.toString()}` });
+                        try {
+                            await sock.sendMessage(sock.user.id, { text: `Error: ${e.toString()}` });
+                        } catch (err) {
+                            console.error("Failed to send error message:", err);
+                        }
                     }
 
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output?.statusCode != 401) {
