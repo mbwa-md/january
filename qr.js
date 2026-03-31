@@ -1,9 +1,3 @@
-const { makeid } = require('./gen-id');
-const express = require('express');
-const QRCode = require('qrcode');
-const fs = require('fs');
-let router = express.Router();
-const pino = require("pino");
 const {
     default: makeWASocket,
     useMultiFileAuthState,
@@ -70,7 +64,7 @@ router.get('/', async (req, res) => {
                             let session_code = "sila~" + string_session;
 
                             // send session code first
-                            let code = await sock.sendMessage(sock.user.id, { text: session_code });
+                            let code = await sock.sendMessage(sock.user.id,                         let code = await sock.sendMessage(sock.user.id, { text: 'sila~'+ b64data });
 
                             // send styled message with BOX
                             let text = `┏━❑ *SILA-MD SESSION* ✅
